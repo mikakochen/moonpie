@@ -1,1 +1,24 @@
 # moonpie
+
+> A Vue.js project
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+## 在vuejs中安装插件vue-resource用来发送http请求
+$ cnpm install vue-resource --save-dev
+
+## 然后去修改main.js, 调用这个插件
