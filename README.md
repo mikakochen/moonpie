@@ -1,6 +1,7 @@
-# moonpie
+# moonpie 后台管理系统（比心）
 
 > A Vue.js project
+Vue.js + ELementUI + nodejs(express) + mongdb(monk)
 
 ## Build Setup
 

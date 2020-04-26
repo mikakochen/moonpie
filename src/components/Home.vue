@@ -1,42 +1,15 @@
 <template>
-  <el-container>
-      <el-header :span="24" class="header clearfix">
-        <div class="left-box">
-          <img src="../assets/mac-logo.png">
-          <span>管理系统</span>
-        </div>
-        <!-- <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-                  background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-          
-        </el-menu> -->
-        <div class="right-box">
-          <span>欢迎您，姓名！</span>
-          <div class="icon-box">
-            <!-- <i class="el-icon-question"></i>
-            <i class="el-icon-setting"></i>
-            <i class="el-icon-bell"></i> -->
-            <!-- <router-link to="/login"><i>登录</i></router-link>
-            <router-link to="/404"><i>错误</i></router-link> -->
-          </div>
-        </div>
-      </el-header>
+  <el-container direction="vertical">
+      <my-header ref="myHeader"></my-header>
       <el-container>
         <!-- 左侧菜单 -->
         <el-aside width="200px" class="aside">
           <!-- 鼠标悬浮在el-menu属性上即可看到注释 -->
-          <el-menu
-            default-active="1"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-            collapse-transition
-            router
-            unique-opened
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b">
+          <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
+                   router default-active="1" @open="handleOpen" @close="handleClose" collapse-transition unique-opened>
             <template v-for="(item, index) in asides" v-if="!item.hidden">
-              <!-- 有子菜单用submenu,v-if用来判断这级节点是否是叶子节点 -->
+
+              <!-- 有子菜单用submenu,v-if用来判断这级节点是否有子集 -->
               <el-submenu v-if="item.children" :index="item.path" :key="item.path">
                 <template slot="title">
                   <i :class="item.icon"></i>
@@ -59,10 +32,13 @@
 
         <el-main>
           <el-header>
-            <el-breadcrumb separator-class="el-icon-arrow-right">
-              <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-              <el-breadcrumb-item>{{$route.name}}</el-breadcrumb-item>
+            <el-breadcrumb separator-class="el-icon-arrow-right" class="inner-block">
+              <el-breadcrumb-item v-for="item in $route.matched" :key="item.index">
+                {{item.name}}
+              </el-breadcrumb-item>
             </el-breadcrumb>
+            <i class="collect" :class="[isCollected ? 'el-icon-star-on' : 'el-icon-star-off']"
+               @click="collect($route)"></i>
           </el-header>
           <transition name="fade" mode="out-in">
             <router-view></router-view>
@@ -74,43 +50,76 @@
 </template>
 
 <script>
-// Vue.prototype.$http = axios;
+import MyHeader from 'MyHeader';
+import { mapGetters, mapState } from 'vuex';
+
 export default {
   name: 'Home',
   components: {
+    MyHeader
   },
   data () {
     return {
-       asides: []
+       asides: [],
+       isCollected : false
     }
+  },
+  computed: {
+    ...mapState({
+      collectUnit: state => state.a.collectUnit,
+    })
   },
   // 渲染模板之前，用created钩子函数-获取网页数据
   created() {
-    // alert('created')
-    // 第一版是根据后台返回的数据生成导航
-    // this.$http.get("http://127.0.0.1:3000/aside")
-    //     .then((res) => {
-    //         // console.log(res)
-    //         if(res.body != '' && res.body.length > 0) {
-    //           this.asides = res.body;
-    //           this.childAsides = this.asides.filter(item => item.parentID !== '0');
-    //           this.asides = this.asides.filter(item => item.parentID === '0');
-    //           console.log(this.childAsides);
-    //         }
-    //     });
-
     // 第二版决定使用网友们的版本，在路由里写好路径，然后在视图里解析
     this.asides = this.$router.options.routes;
   },
+  watch: {
+    // 因为收藏状态会因当前路由不同而改变，所以需要监听路由
+    $route : 'isCollectedFun'
+  },
   methods: {
+    // 判断收藏夹里有没有当前路由
+    isCollectedFun() {
+      this.isCollected = this.$refs.myHeader.collectUnit.some((item) => item.path === this.$route.path);
+      return this.isCollected;
+    },
+
+    // 点击左侧导航菜单的触发事件
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+
+    //收藏当前路由，先发送给vuex,再弹出通知
+    collect($route){
+      let collectMe = new Promise((resolve, reject) => {
+        if(!this.isCollected){
+          this.$store.dispatch('addFun', $route);
+          resolve('success');
+        }else{
+          this.deleteThis($route);
+        }
+        // 切换收藏状态
+        this.isCollected = !this.isCollected;
+      }).then(result =>{
+        this.$notify({
+          title: '操作成功',
+          message:  '您已放入收藏夹！',
+          duration: 3000,
+          offset: 100
+        });
+      }).catch(result =>{
+        console.log('failed' + result);
+      })
+    },
+
+    // 删除一个收藏,父组件调用子组件的方法deleteThis
+    deleteThis(item) {
+      this.$refs.myHeader.deleteThis(item);
     }
-   
-    
   }
 }
 </script>
@@ -120,4 +129,8 @@ export default {
 .aside{
   background-color: rgb(84, 92, 100);
 }
+.collect{
+    float: right;
+    transform: scale(1.5);
+  }
 </style>

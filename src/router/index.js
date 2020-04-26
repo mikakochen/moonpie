@@ -6,28 +6,35 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const router =  new Router({
+  mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/one',
       name: '导航一',
       icon: 'el-icon-menu',
-      meta: { requiresAuth: true },   // 表示需要路由守卫，登录之后才能访问
-      component: (resolve) => require(['../components/home.vue'], resolve),
+      meta: { requiresAuth: false },   // 表示需要路由守卫，登录之后才能访问
+      component: (resolve) => require(['../components/Home.vue'], resolve),
       children: [
-        { path: '/nav1/table',  name: 'Tab', icon: 'el-icon-location', component: (resolve) => require(['../components/nav1/Tab.vue'], resolve)},
-        { path: '/form',  name: 'Form',icon: 'el-icon-document',component: (resolve) => require(['../components/nav1/Form.vue'], resolve)},
+        { path: '/one/tab',  name: 'Tab', icon: 'el-icon-location', component: (resolve) => require(['../components/nav1/Tab.vue'], resolve)},
+        { path: '/one/form',  name: 'Form',icon: 'el-icon-document',component: (resolve) => require(['../components/nav1/Form.vue'], resolve)},
+        { path: '/one/table',  name: 'Table',icon: 'el-icon-share',component: (resolve) => require(['../components/nav1/Table.vue'], resolve)},
       ]
     },{
-      path: '/',
+      path: '/two',
       name: '导航二',
       icon: 'el-icon-edit',
       isLeaf: true,
-      meta: { requiresAuth: true },   // 表示需要路由守卫，登录之后才能访问
-      component: (resolve) => require(['../components/home.vue'], resolve),
+      meta: { requiresAuth: false },   // 表示需要路由守卫，登录之后才能访问
+      component: (resolve) => require(['../components/Home.vue'], resolve),
+      children: [
+        { path: '/two/productList',  name: '列表示例', icon: 'el-icon-location', component: (resolve) => require(['../components/nav2/ProductList.vue'], resolve)},
+        { path: '/two/toast',  name: '自定义插件和组件', icon: 'el-icon-s-operation', component: (resolve) => require(['../components/nav2/ExampleForPlugin.vue'], resolve)},
+        { path: '/two/slot',  name: '插槽', icon: 'el-icon-s-operation', component: (resolve) => require(['../components/nav2/SlotExample.vue'], resolve)},
+      ]
     },{
       path: '/login',
       name: 'Login',
-      component: (resolve) => require(['../components/login.vue'], resolve),
+      component: (resolve) => require(['../components/Login.vue'], resolve),
       hidden: true
     },{
       path: '/404',
@@ -35,6 +42,10 @@ const router =  new Router({
       redirect: { path: '/404' },
       component: (resolve) => require(['../components/404.vue'], resolve),
       hidden: true
+    },{
+        path: '*',
+        hidden: true,
+        redirect: { path: '/one' }
     }
   ]
 })

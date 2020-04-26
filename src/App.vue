@@ -6,13 +6,10 @@
 			<router-view></router-view>
 		</transition>
     
-    
   </div>
 </template>
 
 <script>
-
-
 export default {
   name: 'App',
   components: {
@@ -22,10 +19,6 @@ export default {
     }
   }
 }
-
-//定义一个空的Vue实例
-    // var Event=new Vue();
-    
 </script>
 
 <style>
@@ -41,21 +34,13 @@ export default {
 #app > section{
   height: 100vh;
 }
-.header{
-  height: 15%;
-  border-bottom: 1px solid #ccc;
-}
-.left-box, .left-box img, .right-box{
-  height: 100%;
-}
-.left-box{
-  float: left;
-}
-.right-box{
-  float: right;
-}
+
 .icon-box{
   display: inline-block;
+}
+.inner-block{
+  display: inline-block;
+
 }
 
 
