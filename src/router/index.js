@@ -30,6 +30,7 @@ const router =  new Router({
         { path: '/two/productList',  name: '列表示例', icon: 'el-icon-location', component: (resolve) => require(['../components/nav2/ProductList.vue'], resolve)},
         { path: '/two/toast',  name: '自定义插件和组件', icon: 'el-icon-s-operation', component: (resolve) => require(['../components/nav2/ExampleForPlugin.vue'], resolve)},
         { path: '/two/slot',  name: '插槽', icon: 'el-icon-s-operation', component: (resolve) => require(['../components/nav2/SlotExample.vue'], resolve)},
+        { path: '/two/list',  name: '递归组件', icon: 'el-icon-s-operation', component: (resolve) => require(['../components/nav2/RecursMenu.vue'], resolve)},
       ]
     },{
       path: '/login',

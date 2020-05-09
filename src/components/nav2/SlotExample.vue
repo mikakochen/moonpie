@@ -1,7 +1,11 @@
 <template>
     <div class="product-content">
         <test-slot>
-            <template v-slot:left>新的左左左</template>
+            <template v-slot:left="sonToDad">
+                新的左左左
+            <p>用插槽传递的数据：{{sonToDad.data}}</p>
+            <!-- sonToDad.data中的data对应slot标签中的v-bind:data -->
+            </template>
         </test-slot>
 
         <test-slot>
@@ -11,22 +15,15 @@
 </template>
 
 <script>
-import TestSlot from './TestSlot';
-
+    import TestSlot from './TestSlot';
     export default {
         name: 'SlotExample',
         components: {
             TestSlot
         },
-        props: {
-            transferData: {
-                type: Object,
-                default: {}
-            }
-        },
         mounted() {
+            // console.log(sonToDad);
         }
-
     }
 </script>
 

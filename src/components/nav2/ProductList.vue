@@ -10,6 +10,8 @@
 </template>
 
 <script>
+
+// import { provide } from "@vue/composition-api";
 import ProductItem from 'ProductItem';
 // 父组件为控制组件，处于高位拥有控制权，子组件为视图组件。
 // 父组件传递数据给子组件使用，遇到业务逻辑操作时子组件触发父组件的自定义事件。

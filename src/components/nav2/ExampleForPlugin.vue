@@ -6,6 +6,8 @@
             <el-button type="primary" @click="openFullScreen">全局Loading</el-button>
             <el-button type="primary" @click.stop="doToast">自定义Toast插件</el-button>
         </div>
+        <h4>自定义指令</h4>
+        <div v-red>指令生效，字体变红</div>
     </div>
 </template>
 
@@ -18,6 +20,17 @@
         data() {
             return {
                 loading: false
+            }
+        },
+        directives: {     // 局部自定义指令，只在当前组件有效
+            red: {
+                bind: function() {
+                    console.log('bind')
+                },
+                inserted: function(e){
+                    console.log('inserted')
+                    e.style.color = 'red';
+                }
             }
         },
         methods: {
