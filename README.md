@@ -25,3 +25,5 @@ $ cnpm install vue-resource --save-dev
 ## 然后去修改main.js, 调用这个插件
 
 dev分支新增功能1
+
+dev分支新增功能2
