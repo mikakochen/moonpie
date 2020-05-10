@@ -8,7 +8,7 @@
         </div>
         <h4>自定义指令</h4>
         <div v-red>指令生效，字体变红</div>
-        <div>分支测试2222222222</div>
+        <div>dev分支代表2。0版本，假装有新功能</div>
     </div>
 </template>
 
