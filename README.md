@@ -23,3 +23,7 @@ npm run build --report
 $ cnpm install vue-resource --save-dev
 
 ## 然后去修改main.js, 调用这个插件
+import VueResource from 'vue-resource'
+Vue.use(VueResource);
+
+## 如何搭建后台框架，请前往myapp/README.md查看
